@@ -176,3 +176,20 @@ ORIGINAL AUTHOR
    David Reveman ( david@waimea.org )  
    The waimea website: http://www.waimea.org  
 
+SUPPORT
+=======
+   Support this project by providing a better icon, than the one
+   that is contained in the file data/meawm-48x48.jpg
+
+   Also can also donate to support this project at 
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="TZU8BE63SVVL4">
+<input type="image"
+src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0"
+name="submit" alt="PayPal - The safer, easier way to pay online!">
+<img alt="" border="0"
+src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1"
+height="1">
+</form>
+
