@@ -1,0 +1,4 @@
+/home/pierre/src/karakul/qt4/base/github/meawm/build/CMakeFiles/documentation.dir
+/home/pierre/src/karakul/qt4/base/github/meawm/build/CMakeFiles/docs.dir
+/home/pierre/src/karakul/qt4/base/github/meawm/build/src/CMakeFiles/meawm.dir
+/home/pierre/src/karakul/qt4/base/github/meawm/build/CMakeFiles/doxygen.dir

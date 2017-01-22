@@ -1,0 +1,125 @@
+menu.title:                     flat gradient crossdiagonal
+  menu.title.color:             #8090c0
+  menu.title.colorTo:           #405070
+  menu.title.textColor:         #ffffff
+  menu.title.textShadowColor:   #000000
+  menu.title.textShadowXOffset: 1
+  menu.title.textShadowYOffset: 1
+  menu.title.opacity:           40
+
+menu.frame:             flat gradient crossdiagonal
+  menu.frame.color:     #ffffff
+  menu.frame.colorTo:   #ffffff
+  menu.frame.textColor: #000000
+  menu.frame.opacity:   40
+
+menu.hilite:                     flat gradient horizontal
+  menu.hilite.color:             #cccccc
+  menu.hilite.colorTo:           #000000
+  menu.hilite.textColor:         #ffffff
+  menu.hilite.textShadowColor:   #000000
+  menu.hilite.textShadowXOffset: 1
+  menu.hilite.textShadowYOffset: 1
+  menu.hilite.opacity:           40
+
+menu.bullet.look:         >
+menu.justify:             right
+menu.checkbox.true.look:  [x]
+menu.checkbox.false.look: [ ]
+menu.*.font: arial:pixelsize=14 [xft]
+
+window.title.focus:           flat gradient vertical
+  window.title.height: 25
+  window.title.focus.color:   #414828
+  window.title.focus.colorTo: #DFDFDF
+
+window.title.unfocus:           flat gradient vertical
+  window.title.unfocus.color:   #414828
+  window.title.unfocus.colorTo: #7f7f7f
+  window.title.unfocus.opacity: 40
+
+window.justify: center
+
+window.label.focus:                     parentrelative
+  window.label.focus.textColor:         #ffffff
+  window.label.focus.textShadowColor:   #000000
+  window.label.focus.textShadowXOffset: 1
+  window.label.focus.textShadowYOffset: 1
+
+window.label.unfocus:                     parentrelative
+  window.label.unfocus.textColor:         #222222
+  window.label.unfocus.textColor.opacity: 40
+
+window.handle.focus:           flat gradient crossdiagonal
+  window.handle.focus.color:   #90b098
+  window.handle.focus.colorTo: #506058
+
+window.handle.unfocus:           flat gradient crossdiagonal
+  window.handle.unfocus.color:   #708078
+  window.handle.unfocus.colorTo: #506058
+  window.handle.unfocus.opacity: 50
+
+window.grip.focus:           flat gradient crossdiagonal
+  window.grip.focus.color:   #fff0a0
+  window.grip.focus.colorTo: #c0a040
+
+window.grip.unfocus:           flat gradient crossdiagonal
+  window.grip.unfocus.color:   #dfd080
+  window.grip.unfocus.colorTo: #c0a040
+  window.grip.unfocus.opacity: 50
+
+window.button0.foreground:           True
+window.button0.state:                SHADED
+window.button0.autoplace:            Left
+window.button0.position:             0
+window.button0.*.focus:              parentrelative
+  window.button0.*.focus.picColor:   #000000
+window.button0.*.unfocus:            parentrelative
+  window.button0.*.unfocus.picColor: #000000
+window.button0.*.pressed:            parentrelative
+  window.button0.*.pressed.picColor: #506058
+
+window.button1.foreground:           True
+window.button1.state:                CLOSE
+window.button1.autoplace:            Right
+window.button1.position:             0
+window.button1.*.focus:              parentrelative
+  window.button1.*.focus.picColor:   #000000
+window.button1.*.unfocus:            parentrelative
+  window.button1.*.unfocus.picColor: #000000
+window.button1.*.pressed:            parentrelative
+  window.button1.*.pressed.picColor: #506058
+
+window.button2.foreground:           True
+window.button2.state:                MAXIMIZED
+window.button2.autoplace:            Right
+window.button2.position:             0
+window.button2.*.focus:              parentrelative
+  window.button2.*.focus.picColor:   #000000
+window.button2.*.unfocus:            parentrelative
+  window.button2.*.unfocus.picColor: #000000
+window.button2.*.pressed:            parentrelative
+  window.button2.*.pressed.picColor: #506058
+
+dockappholder.*.frame:           flat gradient crossdiagonal
+  dockappholder.*.frame.color:   #8090c0
+  dockappholder.*.frame.colorTo: #405070
+  dockappholder.*.frame.opacity: 40
+
+dockappholder.*.borderWidth: 1
+dockappholder.*.borderColor: #000000
+
+borderColor: #000000
+borderWidth: 1
+handleWidth: 3
+
+! outlineColor:      #ffffff
+! menu.borderWidth:  1
+! menu.title.height: 15
+! menu.item.height:  15
+
+! *.font: arial:pixelsize=12 [xft]
+
+rootCommand: feh -FZ --bg-scale /usr/share/meawm/backgrounds/mustard-swirl.jpg
+#rootCommand: Esetroot -s /usr/share/meawm/backgrounds/meawm.jpg
+#rootCommand: display --window 0x00 /usr/share/meawm/backgrounds/mustard-swirl.jpg

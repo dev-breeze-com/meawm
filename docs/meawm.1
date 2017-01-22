@@ -1,0 +1,2179 @@
+.\"
+.\" Man page for Meawm
+.\" 
+.\" This manual page may be freely distributed and modified.
+.\" Author: Pierre Innocent <dev@breezeos.com>
+.\"
+.\" This manual page may be freely distributed and modified.
+.\" Author: David Reveman <david@waimea.org>
+.\" 
+.\" .TH WAIMEA 1 "Nov 15 2002" "0.5.0" "User Manual"
+.TH MEAWM 1 "Nov 15 2016" "1.0.0" "User Manual"
+
+
+.SH NAME
+Meawm \- an X11 window manager designed for maximum efficiency
+
+
+.SH SYNOPSIS
+.B meawm 
+[--display=DISPLAYNAME] [--rcfile=CONFIGFILE] 
+[--stylefile=STYLEFILE] [--actionfile=ACTIONFILE] [--menufile=MENUFILE] 
+[--usage] [--help] [--version]
+
+
+.SH DESCRIPTION
+
+The design goal for
+.I meawm 
+is to create the an efficient desktop working environment. 
+To achieve this
+.I meawm
+is a fast and highly customizable virtual multiple desktop window manager.
+It has a very advanced style engine with features like blackbox style support, 
+pixmap style support and transparent textures. Text can be rendered double
+buffered using both X core fonts and Xft fonts. 
+.I Meawm 
+also includes a fast lightweight menu system with dynamic menus support.
+The built in action configuration system makes
+.I meawm
+a very configurable window manager. It allows the user to set up 
+.I meawm
+to behave as any other window manager or in new ways never before possible.
+
+
+.SH OPTIONS
+.TP
+.B "--display DISPLAYNAME"
+X server to contact
+
+.TP
+.B "--rcfile CONFIGFILE"
+Use the alternate
+.I CONFIGFILE
+instead of
+.IR ~/.meawmrc
+and
+.IR /usr/share/meawm/rcfile.
+
+.TP
+.B "--stylefile STYLEFILE"
+Use the alternate
+.I STYLEFILE
+instead of
+.IR /usr/share/meawm/styles/Default.style.
+This overrides styleFile resource.
+
+.TP
+.B "--actionfile ACTIONFILE"
+Use the alternate
+.I ACTIONFILE
+instead of
+.IR /usr/share/meawm/actions/action.
+This overrides actionFile resource.
+
+.TP
+.B "--menufile MENUFILE"
+Use the alternate
+.I MENUFILE
+instead of
+.IR /usr/share/meawm/menu
+This overrides menuFile resource.
+
+.TP
+.B "--usage"
+Display brief usage message
+
+.TP
+.B "--help"
+Show full help message
+
+.TP
+.B "--version"
+Output version information and exit
+
+
+.SH "CONFIG FILE"
+When starting, 
+.I meawm
+looks for a 
+.I .meawmrc 
+resource file in the users home directory. If file doesn't exist, 
+.I meawm
+falls back to 
+.I /usr/share/meawm/rcfile, 
+the system wide configuration file. To force 
+.I meawm 
+to read a different configuration file use 
+.I --rcfile
+switch. Below is a list of configuration options that 
+.I meawm
+understands.
+
+.TP
+.B  screenMask:     List of screen numbers
+Whitespace separated list of screens that 
+.I meawm 
+should manage. If you for example want
+.I meawm
+to handle only screen .0 and screen .2, then list of screen numbers
+should be: 0 2
+
+.TP
+.B scriptDir:     Dirpath
+Path to alternate scripts directory
+instead of
+.IR /usr/share/meawm/scripts.
+.I scriptDir 
+is used execution of dynamic menu scripts.
+
+.TP
+.B doubleClickInterval:     Integer
+Adjust the delay (in milliseconds) between mouse clicks for 
+.I meawm
+to consider it a double click. Default value is 
+.I 300.
+
+.P
+When running  
+.I meawm
+on display with multiple screens the screen0 key in the following 
+configuration options can also be screen1, 2 etc. for any appropriate screen.
+
+.TP
+.B  screen0.styleFile:     Filepath
+Path to alternate
+.I STYLEFILE
+instead of
+.I /usr/share/meawm/styles/Default.style.
+
+.TP
+.B  screen0.menuFile:     Filepath
+Path to alternate
+.I MENUFILE
+instead of
+.I /usr/share/meawm/menu.
+
+.TP
+.B screen0.actionFile:     Filepath
+Path to alternate
+.I ACTIONFILE
+instead of
+.IR /usr/share/meawm/actions/action.
+
+.TP
+.B  screen0.numberOfDesktops:     Integer
+This tells 
+.I meawm 
+how many virtual desktops we should use.
+Default value is 
+.I 4.
+
+.TP
+.B  screen0.desktopNames:     List of desktop names
+A comma separated list of desktop names.
+
+.TP
+.B  screen0.doubleBufferedText:     Boolean
+Tells 
+.I meawm
+to use double buffered text drawing method. Removes text flickering and
+requires far less text redrawing. Faster in most cases. But be aware, 
+then using flat solid textures one double buffered text redraw is more 
+expensive than one single buffered one. Default value is 
+.I True.
+
+.TP
+.B  screen0.lazyTransparency:     Boolean
+Tells 
+.I meawm
+to use lazy redrawing of transparent textures. When enabled 
+.I meawm
+only redraws transparent textures at end of move functions.
+Default value is 
+.I False.
+	
+.TP
+.B screen0.colorsPerChannel:     Integer
+This tells 
+.I meawm
+how many colors to take from the X
+server on pseudocolor displays. A channel would be red,
+green, or blue. 
+.I Meawm 
+will allocate this variable ^ 3 colors and make them always available.
+Value must be between 2 and 6. When you run 
+.I meawm 
+on an 8-bit display, you must set this resource to 4. 
+Default value is 
+.I 4.
+
+.TP
+.B  screen0.cacheMax:     Integer
+This tells 
+.I meawm 
+how much memory (in KB) it may use to store cached pixmaps on the X server.
+If your machine runs short of memory, you may lower this value. 
+Default value is 
+.I 200.
+
+.TP
+.B  screen0.imageDither:     Boolean
+Tells 
+.I meawm
+to dither images on none TrueColor screens. Default value is 
+.I True.
+
+.TP
+.B screen0.virtualSize:     IntegerxInteger
+Tells 
+.I meawm 
+what virtual desktop size to use. Example:
+.I 3x3
+will set the virtual desktop size to three times screen height 
+in virtual height and three times screen width in virtual width.
+Default value is 
+.I 3x3.
+
+.TP
+.B screen0.menuStacking:     StackingType
+Tells 
+.I meawm 
+what stacking type to use for menus. Can be one of: AlwaysOnTop, 
+AlwaysAtBottom or Normal.
+Default type is
+.I Normal.
+
+.TP
+.B screen0.transientAbove:     Bool
+Tells 
+.I meawm 
+to use special handling of transient windows. When turned on 
+.I meawm 
+will always keep transient windows above and focused relative to the
+the 'transient for' window.
+Default value is
+.I True.
+
+.TP
+.B screen0.focusRevertTo:     RevertType
+Specifies where the input focus reverts to if a window or menu becomes
+not viewable. RevertType can be one of Root or Window. When set to Root
+.I meawm
+will revert focus to the root window. When set to Window
+.I meawm
+will revert focus to the last focused window that is viewable. 
+Default value is
+.I Window.
+
+.PP
+Dockappholder Resources
+.PP
+It is possible to have more than one dockappholder running.
+First dockappholder should be named 
+.I dock0
+and the second 
+.I dock1
+and so on. One dockappholder is always running whether you have a
+.I dock0
+line in your 
+.I CONFIGFILE  
+or not.
+
+.TP
+.B screen0.dock[num].geometry:     OffsetString
+Define dockappholder position, X offset string of form:
+[{+-}<xoffset>{+-}<yoffset>]. See 
+.BR X(7).
+
+.TP
+.B screen0.dock[num].order:     Regular Expression List
+A whitespace separated list of regular expressions describing how 
+to order the dockapps in the dockappholder. Dockapps can be 
+ordered by window name, window class and window title. For window 
+name use 
+.I "n/Regexp/" 
+, `Regexp' being the POSIX regular expression used for window name
+matching. For window class use 
+.I "c/Regexp/"
+, `Regexp' being the POSIX regular expression used for window class
+matching. For window title use 
+.I "t/Regexp/"
+, `Regexp' being the POSIX regular expression used for window title
+matching.
+
+Example:
+
+screen0.dock0.order:    n/.*meter$/ c/pager/
+
+This will put dockapp window with name ending with `meter' at 
+the first position in dockappholder and dockapp with classname containing
+`pager' at second position. All dockapp windows that doesn't match any 
+regular expression will be put in last dockapp at last position.
+
+.TP
+.B screen0.dock[num].desktopMask:     Desktop number list
+A whitespace separated list of desktop numbers. Dockappholder will only
+appear in desktops specified by this list. To make dockappholder appear in all
+desktops, replace list with the string `All'. Default is 
+.I All
+
+.TP
+.B screen0.dock[num].direction:     Direction
+Dockappholder direction {Vertical, Horizontal}
+
+.TP
+.B screen0.dock[num].centered:     Boolean
+True if you want the dockappholder to be centered. If
+direction is Vertical, yoffset from geometry resource will
+be ignored and dockappholder will be centered vertically.
+If direction is Horizontal, xoffset from geometry resource
+will be ignored and dockappholder will be centered
+horizontally.
+
+.TP
+.B screen0.dock[num].gridSpace:     Integer
+Number of pixels spacing between dockapps in dockappholder.
+
+.TP
+.B screen0.dock[num].stacking:     StackingType
+Stacking order for dockappholder {AlwaysOnTop, AlwaysAtBottom}.
+
+.TP
+.B screen0.dock[num].inworkspace:     Boolean
+True if you don't wont dockappholder to alter the workarea. Maximizied windows
+will be maximized over the dockappholder when this is set to true. Default
+is False.
+
+
+.SH STYLES
+.I Meawm 
+enables you to use 
+.I blackbox 
+specialized style files that contain 
+.BR X(7)
+resources to specify colors, textures and fonts, and thus the 
+overall look of your window decorations and menus. 
+However there are a few keys in 
+.I blackbox 
+styles that 
+.I meawm
+doesn't use and there are a few new keys that doesn't exist in standard
+.I blackbox 
+styles. 
+.PP
+To understand how the style mechanism works, you should have a little 
+knowledge of how X resources work. See 
+.BR X(7) 
+for this.
+.PP
+.I Meawm 
+allows you to configure the style of menus and the windows.
+Dockappholders uses the same style as the windows.
+.PP 
+Here are the different types of values:
+.TP
+.B Color
+Is a color name. See
+.BR X(7)
+for how to write valid color names. 
+e.g.: 'green'.
+.TP
+.B Font
+XLFD (X core font) or Xft font name. Xft font names must be followed by [xft] 
+suffix. See
+.BR X(7)
+for how to write valid XLFD font names.
+.br
+e.g.:
+.nf
+
+-adobe-courier-medium-r-normal--10-100-75-75-m-60-iso8859-1
+
+.fi
+The format for Xft font names is:
+.nf
+
+<family>-<size>:<name>=<value> [xft]
+.fi
+
+An arbitrary set of additional elements can be appended to the Xft font name,
+the complete list of possible properties is:
+
+.nf
+Name            Type
+---------------------------------
+family          String
+style           String
+slant           Int
+weight          Int
+size            Double
+aspect          Double (only in Xft2)
+pixelsize       Double
+encoding        String (only in Xft1)
+spacing         Int
+foundry         String
+core            Bool (only in Xft1)
+antialias       Bool
+xlfd            String (only in Xft1)
+file            String
+index           Int
+rasterizer      String
+outline         Bool
+scalable        Bool
+rgba            Int
+
+(Defaults from resources)
+
+scale           Double
+render          Bool (only in Xft1)
+minspace        Bool
+
+(Specific to FreeType rasterizer)
+
+charwidth       Int
+charheight      Int
+matrix          XftMatrix
+charset         CharSet (only in Xft2)
+lang            String (only in Xft2)
+.fi
+
+As family and size are both nearly always needed to access a Xft font, they're
+given a privileged place, but really they're no different than the
+remaining values.  For elements that use an enumerated list of possible
+values, the values are given names which can be used in place of an integer,
+or can actually replace the whole name=value part.  They're all unique,
+so this actually works.  Here's a list of all of the enumerated values and
+the associated name:
+
+.nf
+Value           Element
+---------------------------------
+light           weight
+medium          weight
+demibold        weight
+bold            weight
+black           weight
+
+roman           slant
+italic          slant
+oblique         slant
+
+proportional    spacing
+mono            spacing
+charcell        spacing
+
+rgb             rgba
+bgr             rgba
+vrgb            rgba
+vbgr            rgba
+.fi
+
+Some example Xft font names:
+.nf
+
+times-12 [xft]
+
+.fi
+12 point times
+.nf
+
+times,charter-12:bold [xft]
+
+.fi
+12 point, preferring 'times', but accepting 'charter', bold.
+.nf
+
+times-12:bold:slant=italic,oblique [xft]
+
+.fi
+12 point times bold, either italic or oblique
+.nf
+
+times-12:rgba=vbgr [xft]
+
+.fi
+12 point times, optimized for display on an LCD screen with sub-pixel
+elements arranged vertically with blue on the top and red on the bottom.
+.nf
+
+times:pixelsize=100 [xft]
+
+.fi
+100 pixel times -- pixel size overrides any point size
+
+.TP
+.B Xft opacity level
+Xft font opacity level. Integer value from 0 to 100, where 0 is the default 
+non translucent opacity level and and 100 makes it a fully transparent font.
+
+.TP
+.B Font justification
+Is one of left, right or center. 
+e.g.: 'left'.
+
+.TP
+.B Texture descriptions
+Texture descriptions are specified directly to the key that they
+should apply to, e.g.:
+.nf
+ 
+window.label:  Raised Gradient Diagonal Bevel1
+
+.fi
+A texture description consists of up to five fields, which are as follows:
+.nf
+ 
+.I Flat / Raised / Sunken
+.fi
+gives the component either a flat, raised or sunken appearance.
+.nf 
+
+.I Gradient / Solid / Pixmap
+.fi
+tells 
+.I meawm 
+to draw either a solid color or a gradiented texture.
+.nf
+
+.fi
+.I Horizontal / Vertical / Diagonal / Crossdiagonal / Pipecross / Elliptic / Rectangle / Pyramid
+.nf
+.fi
+Select one of these texture types. They only work when also
+.I Gradient
+is specified!
+.nf
+
+.fi
+.I Tiled / Scaled / Stretched
+.nf
+.fi
+Select one of these resizing methods. They only work when also
+.I Pixmap
+is specified!. Tiled resizing does not resize the image just tiles it, 
+fastest method. Scaled resizing performs a normal scaling of image, all parts
+of the image are scaled equally. Stretched resizing only scales the middle
+part of the image, all borders are preserved.
+.nf
+ 
+.I Interlaced
+.fi
+tells 
+.I meawm 
+to interlace the texture (darken every other line).
+This option is most commonly used with gradiented textures, but it 
+also works in solid textures.
+.nf
+ 
+.I Bevel1 / Bevel2
+.fi
+tells 
+.I meawm 
+which type of bevel to use.
+Bevel1 is the default bevel.
+The shading is placed on the edge of the image.
+Bevel2 is an alternative.
+The shading is placed one pixel in from the edge of the image.
+
+Instead of a texture description, also the option
+.I ParentRelative
+is available, which makes the component appear as a part of its parent,
+totally transparant.
+.nf
+
+.fi
+All gradiented textures are composed of two color values: the
+.IR color " and " colorTo " resources."
+When
+.I Interlaced
+is used in
+.I Solid
+mode, the
+.I colorTo
+resource is used to find the interlacing color.
+
+.fi
+A image file must be specified for all pixmap textures.
+.IR pixmap 
+resources is used for finding the image file. Must be either a complete
+file path, a file path relative to 
+.I meawm 
+start directory or an image file
+in the same directory as the style file.
+
+.TP
+.B Texture opacity level
+Texture opacity level. Integer value from 0 to 100, where 0 is the default 
+non translucent opacity level and and 100 makes it a fully transparent texture.
+This requires that the program setting the background image has support for
+setting _XROOTPMAP_ID property on root window. Esetroot does this.
+Opacity works for all types of textures even pixmaps.
+
+.TP
+.B Pixmap stretching borders
+Borders used for pixmap stretching. Format is: 
+.nf
+{ LEFT, RIGHT, TOP, BOTTOM }
+.fi
+LEFT being the width of left border, RIGHT being the width of right border,
+TOP being the height of top border and BOTTOM being the height of bottom
+border. Only graphics not within any of the borders will be scaled when
+stretching pixmap.
+
+.PP
+Here are the keys 
+.I meawm 
+understands together with the value they should contain. 
+
+.PP
+.I Window Keys
+.br
+Controls the look of the window decorations. The '*' in the window keys can 
+be one of: 
+.I title, label, handle, button
+or 
+.I grip.
+
+.PP
+.B window.*.focus:     Texture description
+.br
+.B window.*.focus.opacity:     Texture opacity level
+.br
+.B window.*.focus.color:     Color
+.br
+.B window.*.focus.colorTo:     Color
+.br
+.B window.*.focus.pixmap:     Pixmap
+.br
+.B window.*.focus.border:     Border
+.RS
+Texture type, opacity level, colors and pixmap used for focused window textures.
+.RE
+
+.PP
+.B window.*.unfocus:     Texture description
+.br
+.B window.*.unfocus.opacity:     Texture opacity level
+.br
+.B window.*.unfocus.color:     Color
+.br
+.B window.*.unfocus.colorTo:     Color
+.br
+.B window.*.unfocus.pixmap:     Pixmap
+.br
+.B window.*.unfocus.border:     Border
+.RS
+Texture type, opacity level and colors used for unfocused window textures.
+.RE
+
+.PP
+.B window.label.focus.textColor:     Color
+.br
+.B window.label.focus.textColor.opacity:     Xft opacity level
+.br
+.B window.label.focus.textShadowColor:     Color
+.br
+.B window.label.focus.textShadowColor.opacity:     Xft opacity level
+.RS
+Color and opacity level used for focused window label font.
+.RE
+
+.PP
+.B window.label.focus.textShadowXOffset:     Integer
+.br
+.B window.label.focus.textShadowYOffset:     Integer
+.RS
+X and Y shadow offset for focused window label. If neither XOffset
+or YOffset are specified or both are zero no shadow will be rendered.
+.RE
+
+.PP
+.B window.label.unfocus.textColor:     Color
+.br
+.B window.label.unfocus.textColor.opacity:     Xft opacity level
+.br
+.B window.label.unfocus.textShadowColor:     Color
+.br
+.B window.label.unfocus.textShadowColor.opacity:     Xft opacity level
+.RS
+Color and opacity level used for unfocused window label font.
+.RE
+
+.PP
+.B window.label.unfocus.textShadowXOffset:     Integer
+.br
+.B window.label.unfocus.textShadowYOffset:     Integer
+.RS
+X and Y shadow offset for unfocused window label. If neither XOffset
+or YOffset are specified or both are zero no shadow will be rendered.
+.RE
+
+.PP
+.TP 
+.B window.button.focus.picColor:    Color
+Color used for focused window button symbols.
+
+.PP
+.TP 
+.B window.button.unfocus.picColor:    Color
+Color used for unfocused window button symbols.
+
+.PP
+.TP 
+.B window.button.pressed.picColor:    Color
+Color used for pressed button symbols.
+
+.PP
+.TP 
+.B window.justify:     Font justification
+Font justification for window labels.
+
+.PP
+.TP
+.B window.font:     Font
+Font for window titles.
+
+.PP
+.TP 
+.B borderWidth:     Integer
+Integer value for window border width.
+
+.PP
+.TP 
+.B borderColor:     Color
+Color of window border.
+
+.PP
+.TP 
+.B outlineColor:     Color
+Color of window outline used for non-opaque moving and resizing.
+
+.PP
+.TP 
+.B window.title.height:    Integer
+Integer value for forced titlebar height. If key isn't defined the title
+height is set by the height of the font.
+
+
+.PP
+.I Menu Keys
+.br
+Controls the look of the menus. The '*' in the menu keys can be 
+one of:
+.I title, frame
+or 
+.I hilite.
+
+.PP
+.B menu.*:     Texture description
+.br
+.B menu.*.opacity:     Texture opacity level
+.br
+.B menu.*.color:     Color 
+.br
+.B menu.*.colorTo:     Color
+.br
+.B menu.*.pixmap:     Pixmap
+.br
+.B menu.*.border:     Border
+.RS
+Texture type, opacity level and colors used for menu textures.
+.RE
+
+.PP
+.B menu.*.textColor:     Color
+.br
+.B menu.*.textColor.opacity:     Xft opacity level
+.br
+.B menu.*.textShadowColor:     Color
+.br
+.B menu.*.textShadowColor.opacity:     Xft opacity level
+.RS
+Color and opacity level used for menu fonts.
+.RE
+
+.PP
+.B menu.*.textShadowXOffset:     Integer
+.br
+.B menu.*.textShadowYOffset:     Integer
+.RS
+X and Y shadow offset for menu item. If neither XOffset
+or YOffset are specified or both are zero no shadow will be rendered.
+.RE
+
+.PP
+.TP 
+.B menu.*.justify:     Font justification
+Font justification for menu items.
+
+.PP
+.TP
+.B menu.*.font:     Font 
+Font for menu items.
+
+.PP
+.TP 
+.B menu.bullet.look:	String or 'char'
+String or character code used for menu bullets.
+
+.PP
+.TP 
+.B menu.checkbox.true.look:	String or 'char'
+String or character code used for true checkboxes.
+
+.PP
+.TP 
+.B menu.checkbox.false.look:	String or 'char'
+String or character code used for false checkboxes.
+
+.PP
+.TP 
+.B menu.borderWidth:     Integer
+Integer value for menu border width.
+
+.PP
+.TP 
+.B menu.item.height:    Integer
+Integer value for forced menu frame item height. If key isn't defined the 
+frame menu item height is set by the height of the font.
+
+.PP
+.TP 
+.B menu.title.height:    Integer
+Integer value for forced menu title item height. If key isn't defined the 
+frame menu title height is set by the height of the font.
+
+
+.PP
+.I Dockappholder Keys
+.br
+Controls the look of the dockappholders. A different texture can be assigned 
+to each dockappholder. '[ID]' should be replaced by a dockappholder ID number.
+A dockappholder ID is >=0 and depends on the dockappholder configuration in 
+the rc-file.
+
+.PP
+.B dockappholder.dock[ID].frame:     Texture description
+.br
+.B dockappholder.dock[ID].frame.opacity:     Opacity level
+.br
+.B dockappholder.dock[ID].frame.color:     Color
+.br
+.B dockappholder.dock[ID].frame.colorTo:     Color
+.br
+.B dockappholder.dock[ID].frame.pixmap:     Pixmap
+.br
+.B dockappholder.dock[ID].frame.border:     Border
+.RS
+Texture type, opacity level and colors used for dockappholder 'dock[ID]'s frame 
+texture.
+.RE
+
+.PP
+.TP 
+.B dockappholder.dock[ID].borderWidth:     Integer
+Border width used for dockappholder 'dock[ID]'s border.
+
+.PP
+.TP 
+.B dockappholder.dock[ID].borderColor:     Color
+Border color used for dockappholder 'dock[ID]'s border.
+
+
+.PP
+.I Button Keys
+.br
+Controls the look of the titlebar buttons. For backwards compatibility with 
+blackbox styles 
+.I meawm 
+still understands the above mentioned window.button.* key, but 
+.I meawm
+have a much more advanced configuration system for titlebar buttons. The 
+. meawm 
+titlebar configuration system allows you to have any number of titlebar buttons
+and the position and look for each button can be specified.
+.PP
+A titlebar button works just like a checkbox. It has two states, a 'false' 
+state and a 'true' state. Which state the button is in depends on a variable 
+and the look of each of these states can be specified. The '[ID]' must be a 
+number >= 0. For
+.I meawm 
+to read button configuration with an ID of 2, there must be a 
+configuration with an ID of 0 and an ID of 1, this is because
+.I meawm 
+stops reading button configurations when it comes to missing ID.
+
+.PP
+.TP 
+.B window.button[ID].foreground:     Boolean
+True if you want meawm to draw its standard foreground graphics on the button.
+Graphics drawn depends on the buttons state configuration.
+
+.PP
+.TP 
+.B window.button[ID].state:     Checkbox State
+This specifies what variable the button should monitor for its state. Can be 
+one of these:
+.br
+MAXIMIZED
+.br
+MINIMIZED
+.br
+SHADED
+.br
+STICKY
+.br
+ALWAYSONTOP
+.br
+ALWAYSATBOTTOM
+.br
+DECORTITLE
+.br
+DECORHANDLE
+.br
+DECORBORDER
+.br
+DECORALL
+.br
+FULLSCREEN
+.br
+CLOSE
+.br
+None
+.br
+
+When set to None, titlebar button will only have one state (false state).
+Default is None.
+
+.PP
+.TP 
+.B window.button[ID].autoplace:     Autoplace Type
+This specifies the autoplace type for the button. Can be one of Left, Right
+or False. Left will automatically place the button on the left side of the 
+titlebar so that it doesn't cover any other button and Right will automatically
+place the button on the right side. No automatic placement will be used when
+set to False. Default is False.
+
+.PP
+.TP 
+.B window.button[ID].position:     Offset
+X coordinate for button. If offset is positive, then the left side of the 
+titlebar will be used as X coordinate zero. If offset is negative, then the
+right side of the titlebar will be used as X coordinate zero. 'position' 
+resource will be ignored if not 'autoplace' resource is set to False.
+
+.PP
+.B window.button[ID].[STATE].focus:     Texture description
+.br
+.B window.button[ID].[STATE].focus.opacity:     Opacity level
+.br
+.B window.button[ID].[STATE].focus.color:     Color
+.br
+.B window.button[ID].[STATE].focus.colorTo:     Color
+.br
+.B window.button[ID].[STATE].focus.pixmap:     Pixmap
+.br
+.B window.button[ID].[STATE].focus.border:     Border
+.br
+.B window.button[ID].[STATE].unfocus:     Texture description
+.br
+.B window.button[ID].[STATE].unfocus.opacity:     Opacity level
+.br
+.B window.button[ID].[STATE].unfocus.color:     Color
+.br
+.B window.button[ID].[STATE].unfocus.colorTo:     Color
+.br
+.B window.button[ID].[STATE].focus.border:     Border
+.br
+.B window.button[ID].[STATE].unfocus.pixmap:     Pixmap
+.br
+.B window.button[ID].[STATE].pressed:     Texture description
+.br
+.B window.button[ID].[STATE].pressed.opacity:     Opacity level
+.br
+.B window.button[ID].[STATE].pressed.color:     Color
+.br
+.B window.button[ID].[STATE].pressed.colorTo:     Color
+.br
+.B window.button[ID].[STATE].pressed.pixmap:     Pixmap
+.br
+.B window.button[ID].[STATE].pressed.border:     Border
+.RS
+Texture type, opacity level and colors used for titlebar button[ID]. [STATE]
+can be 'false' or 'true'. If button have more than one state then both 'false'
+and 'true' state textures should be specified. If button have only one
+state then only 'false' state needs to be specified.
+.RE
+
+.PP
+.TP 
+.B rootCommand:     Command line
+This command is executed whenever this style is loaded.
+Typically it sets the root window to a nice picture.
+
+.PP
+Default style file is /usr/share/meawm/styles/Default.style.
+You can study or edit this style to grasp how the style mechanism works.
+
+
+.SH ACTIONS
+.I Meawm 
+uses special action files for controlling its behavior.
+The idea is that you could specify an 
+.I action 
+for every useful X event received.
+.PP
+An action file should contain action lists for different types of windows.
+An action list looks like this:
+.nf
+
+WINDOW {
+   ACTIONLINE,
+   ACTIONLINE
+}
+.fi
+.PP
+WINDOW is a window that you can create actions for, a list of windows that you
+can assign actions for follows below. ACTIONLINE is a string describing the
+action to be performed and when. Actions are matched in the same order as
+the order of the action lines.
+.PP
+For convenience it's also possible to define lists of action lines. e.g.:
+.nf
+
+DEF DefinedTitleActions {
+    startMove     : ButtonPress = Button1,
+    endMoveResize : ButtonRelease = Button1
+}
+window.title {
+   DefinedTitleActions,
+   toggleShade : DoubleClick = Button1
+}
+
+.fi
+In window.title action list 'DefinedTitleActions' will be replaced by
+the action lines defined above.
+.PP 
+An action line should start with an action and then a ':' character
+followed by an event description.
+.PP
+The event description contains an event type, an optional event detail and 
+a modifier mask.
+.PP
+Here are two good examples:
+.nf
+
+startMove   : ButtonPress = Button1 & Mod1Mask & ControlMask
+startResize : ButtonPress = Button1 & Mod1Mask & !ControlMask
+
+.fi
+The first line will create a startmove 
+.I action 
+that will be performed when
+a ButtonPress event is received from Button1 and at least mod1 
+modifier and control modifier are active. The second line will
+create a startresize 
+.I action 
+that will be performed when a ButtonPress
+event is received from Button1 and at least mod1 modifier is active
+and the control modifier is not active.
+
+.PP 
+.I Meawm
+also supports delayed actions. A delay is defined within brackets at the
+end of the action line. A delay definition consists of a delay time in 
+milliseconds followed by an optional delay break event list. The delay 
+break list is a list of events that if occurring during the delay time will
+discard the action. The delay time and the delay break list are separated 
+with a colon and the events in the delay break list are separated with
+pipe signs. e.g.:
+.nf
+
+raise : EnterNotify [2000 : LeaveNotify | ButtonPress]
+
+.fi
+Adds a 2000 milliseconds delay to the Raise action, LeaveNotify and 
+ButtonPress events will discard the action.
+
+.PP
+Here is the list of all windows that you can create actions for
+(to define individual actions for a specific window just replace 'window.*'
+with n/Regexp/.*, c/Regexp/.* or t/Regexp/.* where Regexp is the regular
+expression to match window name/class/title):
+.TP
+.B window.frame
+This is the parent window for the client window and all decoration
+windows. Use this key if you want to set an 
+.I action 
+for the window border.
+.PP
+.TP
+.B window.title
+This is the parent window for the label and button windows. You probably
+want this window to have the same action list as the label window.
+.PP
+.TP
+.B window.label
+This is the window that holds the titlebar text.
+
+.PP
+.B window.clientactive
+.br
+.B window.clientpassive
+.RS
+This is the actual window created by the client.
+.I window.clientactive
+is the action list for active (focused) windows and
+.I window.clientpassive
+is the action list for passive (unfocused) windows.
+All actions for window.client.* can be prefixed with a '*' character
+to make them pass-through actions (Events matching pass-through actions
+will also be sent to the client window).
+.RE
+
+.PP
+.B window.button[ID]
+.RS
+Titlebar button window, [ID] will match with [ID] from style file.
+.RE
+
+.PP
+.TP
+.B window.handle
+This is the window for the middle part of the handlebar.
+
+.PP
+.B window.leftgrip
+.br
+.B window.rightgrip
+.RS
+Windows for the left and right grip in the handlebar.
+.RE
+
+.PP
+.B menu.title
+.br
+.B menu.item
+.br
+.B menu.sub
+.br
+.B menu.checkbox
+.RS
+Menu item windows.
+.RE
+
+.PP
+.TP
+.B root
+Root window (background).
+.PP
+.B westedge
+.br
+.B eastedge
+.br
+.B northedge
+.br
+.B southedge
+.RS
+Transparent windows at the edges of the screen. Useful for viewport
+shifting.
+.RE
+
+.PP
+Here is the list of actions common for all window types:
+
+.PP
+.TP
+.B {command line}
+You can specify a command line to execute instead of
+a function. Command line must be within a '{'
+and a '}' character. All special characters need to be 
+escaped (with a `\\') to protect them from expansion. 
+Special characters are:
+.nf
+( ) { } < > [ ] " $
+
+.fi
+
+.PP
+.TP
+.B focus
+Set input focus to the event window.
+
+.PP
+.B viewportLeft
+.br
+.B viewportRight
+.br
+.B viewportUp
+.br
+.B viewportDown
+.RS
+Moves viewport one screen width and warps the pointer one screen width
+in the opposite direction.
+.RE
+
+.PP
+.TP
+.B viewportRelativeMove(OffsetString)
+Moves viewport relative to its current position. MUST have an X offset 
+string as parameter:
+[{+-}<xoffset>{+-}<yoffset>] See
+.BR X(7).
+The xoffset and yoffset values defines the number of pixels to move the
+viewport. A 'W' character in the OffsetString is replaced with 
+screenwidth. A 'H' character in the OffsetString is replace with 
+screenheight.
+
+.PP
+.TP
+.B viewportFixedMove(OffsetString)
+Moves viewport to a fixed position. MUST have an X offset 
+string as parameter:
+[{+-}<xoffset>{+-}<yoffset>] See 
+.BR X(7).
+The xoffset and yoffset values defines the new viewport position.
+{+-} signs defines viewport gravity. A 'W' character in the OffsetString
+is replaced with screenwidth. A 'H' character in the OffsetString is 
+replace with screenheight.
+
+.PP
+.TP
+.B startViewportMove
+Moves viewport after mouse motion events, kind of
+the same way as you move windows. Must be ended with 
+.B endmoveresize 
+action.
+
+.PP
+.TP
+.B taskSwitcher
+Maps windowlist menu at the middle of the screen. This menu is very
+useful for switching between windows.
+
+.PP
+.TP
+.B nextTask
+Sets focus to the window that was focused longest time ago. 
+
+.PP
+.TP
+.B previousTask
+Sets focus to the window that was focused before the currently focused
+window.
+
+.PP
+.TP
+.B gotoDesktop(Desktop number)
+Sets current desktop to desktop specified by desktop number parameter.
+
+.PP
+.TP
+.B nextDesktop
+Sets current desktop to desktop with number one higher than
+current desktop. Current desktop is set to desktop 0 if no desktop with 
+higher number than current desktop exists.
+
+.PP
+.TP
+.B previousDesktop
+Sets current desktop to desktop with number one lower than
+current desktop. Current desktop is set to desktop with highest number
+if no desktop with lower number than current desktop exists.
+
+.PP
+.TP
+.B exit
+Shutdowns meawm.
+
+.PP
+.TP
+.B restart[(command line)]
+Shutdowns meawm and executes command line parameter. If no command line
+parameter was given this 
+.I action
+executes the same command line as meawm was started with.
+
+
+.PP
+.TP 
+.B pointerRelativeWarp(OffsetString)
+Warps pointer relative to its current position. MUST have an X offset
+string as parameter:
+[{+-}<xoffset>{+-}<yoffset>] See
+.BR X(7).
+The xoffset and yoffset values defines the number of pixels to warp the
+pointer.
+
+.PP
+.TP
+.B pointerFixedWarp(OffsetString)
+Warp pointer to a fixed position. MUST have an X offset
+string as parameter:
+[{+-}<xoffset>{+-}<yoffset>] See  
+.BR X(7).
+The xoffset and yoffset values defines the new pointer position.
+{+-} signs defines pointer gravity.
+
+.PP
+.TP
+.B nop
+Does nothing. But will when used as non-pass-through action on client 
+window grab the event from the client.
+
+
+.PP
+Here is the list of additional actions for window.* windows:
+
+.PP
+.TP
+.B raise
+Raise window to top of display stack.
+
+.PP
+.TP
+.B raiseFocus
+Raise window to top of display stack and focus it.
+
+.PP
+.TP
+.B lower
+Lower window to bottom of display stack.
+
+.PP
+.B startMove
+.br
+.B startOpaqueMove
+.RS
+Move window by dragging the mouse. startmove
+.I action
+will display a window outline while dragging the mouse and first move the
+actual window when you're finished dragging. startopaquemove
+.I action
+will move the actual window while you're dragging the mouse. Both must be 
+ended with 
+.B endMoveResize 
+action.
+.RE
+
+.PP
+.B startResizeRight
+.br
+.B startResizeLeft
+.br
+.B startOpaqueResizeRight
+.br
+.B startOpaqueResizeLeft
+.RS
+Resize window by dragging the mouse.
+.I Actions 
+not containing 'opaque' will display a window outline while dragging
+the mouse and first move the actual window when you're finished
+dragging.
+.I Actions 
+ending with 'opaque' will resize the actual window while
+you're dragging the mouse. All four must be 
+ended with 
+.B endMoveResize 
+action.
+.RE
+
+.PP
+.TP
+.B endMoveResize
+Ends a move or resize process.
+
+.PP
+.TP
+.B close
+Sends a delete message to the client window. A normal running X window
+should accept this event and destroy itself.
+
+.PP
+.TP
+.B kill
+Tells the the X server to remove the window from the screen through
+killing the process that created it.
+
+.PP
+.TP
+.B closeKill
+Checks if the window will accept a delete message. If it will, then we
+send a delete message to the client window otherwise we tell the
+X server to kill the client that created it.
+
+.PP
+.B cloneMergeWithWindow(Window matching regex)
+.br
+.B vertMergeWithWindow(Window matching regex)
+.br
+.B horizMergeWithWindow(Window matching regex)
+.RS
+Clone/Vertically/Horizontally merge window with master window matching
+regular expression specified by parameter. Parameter must be one of 
+n/Regexp/, c/Regexp/ or t/Regexp/ where Regexp is the regular
+expression to match window name/class/title with.
+.RE
+
+.PP
+.TP
+.B setMergeMode(String)
+Sets merge mode used for move merging. String parameter must be a valid 
+merge type. Valid merge types are 
+.I Null, Clone, Vertically
+or 
+.I Horizontally.
+
+.PP
+.B nextMergeMode
+.br
+.B prevMergeMode
+.RS
+Shifts merge mode used for move merging. Merge modes are ordered is this
+sequence: 
+.I Null - Clone - Vertically - Horizontally
+Reaching an end of this sequence will warp to the other end.
+.RE
+
+.PP
+.TP
+.B mergedToFront
+If window is a clone merged window or a master window with a clone merged 
+client then this action will bring it to the front.
+
+.PP
+.TP
+.B unmerge
+Unmerges a window from its current master.
+
+.PP
+.TP
+.B explode
+Unmerges all merged windows from a master window.
+
+.PP
+.B menuMap(MenuName)
+.br
+.B menuRemap(MenuName)
+.br
+.B menuUnmap(MenuName)
+.br
+.B menuMapFocused(MenuName)
+.br
+.B menuRemapFocused(MenuName)
+.br
+.B menuUnmapFocused(MenuName)
+.RS
+Map, Remap or Unmap a menu. Mapping a menu that is already mapped
+will do nothing. Remapping a menu that is already mapped will move the 
+mapped menu to the new mapping position.
+.I Actions 
+ending with 'focused' will set input focus to the first
+focusable menu item in the menu when being mapped.
+A menu must be given as parameter to all these 
+.I actions.
+Menu can be a dynamic menu.
+.RE
+
+.PP
+.B shade
+.br
+.B unShade
+.br
+.B toggleShade
+.RS
+shade 
+.I action
+will put window in shaded state. unShade 
+.I action 
+will restore window from shaded to normal state. toggleShade 
+.I action 
+will toggle between shaded and normal state.
+In shaded state only the titlebar for the window is shown.
+.RE
+
+.PP
+.B minimize
+.br
+.B unMinimized
+.br
+.B toggleMinimize
+.RS
+minimize
+.I action
+will put window in minimize state. unMinimize
+.I action 
+will restore window from minimize to normal state. toggleMinimize
+.I action 
+will toggle between minimize and normal state.
+In minimize state the window will not be visible on any desktop.
+.RE
+
+.PP
+.B maximize
+.br
+.B unMaximize
+.br
+.B toggleMaximize
+.RS
+maximize 
+.I action
+will put window in maximized state. unMaximize 
+.I action 
+will restore window from maximized to normal state. toggleMaximize 
+.I action 
+will toggle between maximized and normal state.
+In maximized state the window will have maximum allowed size fitted 
+in screen.
+.RE
+
+.PP
+.B sticky
+.br
+.B unSticky
+.br
+.B toggleSticky
+.RS
+sticky
+.I action
+will put window in sticky state. unSticky
+.I action 
+will restore window from sticky to normal state. toggleSticky
+.I action 
+will toggle between sticky and normal state.
+In sticky state the window will stick to its position whatever the viewport 
+is. 
+.RE
+
+.PP
+.B fullscreenOn
+.br
+.B fullscreenOff
+.br
+.B fullscreenToggle
+.RS
+Turn on, off or toggle fullscreen mode. When window is maximized in 
+fullscreen mode it is maximized to the edges of the screen.
+.RE
+
+.PP
+.B decorTitleOn
+.br
+.B decorTitleOff
+.br
+.B decorTitleToggle
+.RS
+Turn on, off or toggle the window titlebar decoration.
+.RE
+
+.PP
+.B decorHandleOn
+.br
+.B decorHandleOff
+.br
+.B decorHandleToggle
+.RS
+Turn on, off or toggle the window handlebar decoration.
+.RE
+
+.PP
+.B decorBorderOn
+.br
+.B decorBorderOff
+.br
+.B decorBorderToggle
+.RS
+Turn on, off or toggle the window border decoration.
+.RE
+
+.PP
+.B decorAllOn
+.br
+.B decorAllOff
+.RS
+Turn on or off all window decorations.
+.RE
+
+.PP
+.B alwaysOnTopOn
+.br
+.B alwaysOnTopOff
+.br
+.B alwaysOnTopToggle
+.RS
+Turn on, off or toggle if window should be always on top. Always on top 
+windows are always at the top of the display stack.
+.RE
+
+.PP
+.B alwaysAtBottomOn
+.br
+.B alwaysAtBottomOff
+.br
+.B alwaysAtBottomToggle
+.RS
+Turn on, off or toggle if window should be always at bottom. Always at
+bottom windows are always at the bottom of the display stack.
+.RE
+
+.PP
+.B acceptConfigRequestOn
+.br
+.B acceptConfigRequestOff
+.br
+.B acceptConfigRequestToggle
+.RS
+Turn on, off or toggle if window should handle received configure request
+events (don't use this unless you know what you're doing).
+.RE
+
+.PP
+.B moveResize(X11 geometry string)
+.br
+.B moveResizeVirtual(X11 geometry string)
+.RS
+MUST have an X11 geometry string as parameter:
+[<width>{xX}<height>][{+-}<xoffset>{+-}<yoffset>] See
+.BR X(7).
+Sets window geometry. moveResize action moves window to a actual screen 
+position. moveResizeVirtual action moves window to a virtual screen
+position. A 'W' character in the OffsetString is replaced with
+screenwidth. A 'H' character in the OffsetString is replace with
+screenheight.
+.RE
+
+.PP
+.TP
+.B moveToPointer
+Moves center of window to mouse pointer position.
+
+.PP
+.B moveToSmartPlace
+.br
+.B moveToSmartPlaceIfUninitialized
+.RS
+Moves window to position calculated by Smart Placement algorithm. The
+.I moveToSmartPlaceIfUninitialized
+action will only perform the move if the window position haven't been
+initialized by the client to anything other then (0,0), this is useful 
+for moving windows on MapRequest events when you only want to
+move windows that are uninitialized.
+.RE
+
+.PP
+.TP
+.B desktopMask(Desktop number list)
+Sets desktop mask for window. Parameter should be a whitespace separated
+list of desktop numbers. Window will only appear in desktops specified 
+by this list. To make window appear in all desktops, replace list with 
+the string `All'.
+
+.PP
+.TP
+.B joinDesktop(Desktop number)
+Makes window a member of desktop specified by desktop number parameter.
+
+.PP
+.TP
+.B partDesktop(Desktop number)
+Makes window not a member of desktop specified by desktop number parameter.
+
+.PP
+.TP
+.B partCurrentDesktop
+Makes window not a member of current desktop.
+
+.PP
+.TP
+.B joinAllDesktops
+Makes window a member of all desktops.
+
+.PP
+.TP
+.B partAllDesktopsExceptCurrent
+Makes window member of only the current desktop.
+
+.PP
+.TP
+.B partCurrentJoinDesktop(Desktop number)
+Makes window not a member of current desktop and instead makes it a
+member of desktop specified by desktop number parameter.
+
+
+.PP
+Here is the list of additional actions for menu.* windows:
+
+.PP
+.TP
+.B raise
+Raise menu to top of display stack.
+
+.PP
+.TP
+.B lower
+Lower menu to bottom of display stack.
+
+.PP
+.B startMove
+.br
+.B startOpaqueMove
+.RS
+Move menu by dragging the mouse. startMove
+.I action
+will display a menu outline while dragging the mouse and first move the
+actual menu when you're finished dragging. startOpaqueMove
+.I action
+will move the actual menu while you're dragging the mouse. Both must be 
+ended with 
+.B endMoveResize 
+action.
+.RE
+
+.PP
+.TP
+.B endMoveResize
+Ends a move or resize process.
+
+.PP
+.B mapSub
+.br
+.B mapSubOnly
+.br
+.B remapSub
+.br
+.B mapSubFocused
+.br
+.B mapSubFocusedOnly
+.br
+.B remapSubFocused
+.br
+.B unmap
+.br
+.B unmapFocused
+.RS
+Map, remap or unmap menu items submenu. If menu item doesn't 
+have a submenu, nothing is done. Mapping a submenu that is 
+already mapped will do nothing. 
+Remapping a submenu that is already mapped will move the 
+mapped submenu to the new mapping position.
+.I Actions 
+ending with 'Focused' will set input focus to the first
+focusable window in the submenu when being mapped.
+.I Actions 
+ending with 'Only' will unmap all other submenus before mapping submenu.
+.RE
+
+.PP
+.TP
+.B unmapSubs
+Unmaps the submenutree of the menu that contains the menu item. 
+Only linked menus are part of the submenutree and will be unmapped by 
+this action.
+
+.PP
+.TP
+.B unmapTree
+Unmaps the complete menutree that the menu containing the menu item 
+is part of. Only linked menus are part of the menutree and will be 
+unmapped by this action.
+
+.PP
+.TP
+.B func
+Calls function linked to menu item. If menu item doesn't 
+have a linked function, nothing is done.
+
+.PP
+.TP
+.B exec
+Executes command line linked to menu item. If menu item doesn't 
+have a linked command line, nothing is done.
+
+.PP
+.TP
+.B unLink
+unlinks menu containing the menu item from its menu tree.
+
+
+.PP
+Here is the list of additional actions for root, *edge windows:
+
+.PP
+.B menuMap(MenuName)
+.br
+.B menuRemap(MenuName)
+.br
+.B menuUnmap(MenuName)
+.br
+.B menuMapFocused(MenuName)
+.br
+.B menuRemapFocused(MenuName)
+.br
+.B menuUnmapFocused(MenuName)
+.RS
+Map, remap or unmap a menu. Mapping a menu that is already mapped
+will do nothing. Remapping a menu that is already mapped will move the 
+mapped menu to the new mapping position.
+.I Actions 
+ending with 'Focused' will set input focus to the first
+focusable menu item in the menu when being mapped.
+A menu must be given as parameter to all these 
+.I actions.
+.RE
+
+.PP
+Here is the list of event types that can be linked to an 
+.I action:
+
+.PP
+.TP
+.B ButtonPress
+Occurs when a mouse button is pressed.
+Event detail for this event can be one of 
+.I Button1, Button2, Button3, Button4, Button5, Button6, Button7 or AnyButton.
+
+.PP
+.TP
+.B ButtonRelease
+Occurs when a mouse button is released.
+Event detail for this event can be one of 
+.I Button1, Button2, Button3, Button4, Button5, Button6, Button7 or AnyButton.
+
+.PP
+.TP
+.B DoubleClick
+Occurs when a mouse button is pressed two times within time of the 
+double click interval.
+Event detail for this event can be one of 
+.I Button1, Button2, Button3, Button4, Button5, Button6, Button7 or AnyButton.
+
+.PP
+.TP
+.B KeyPress
+Occurs when a key is pressed.
+Event detail for this event should be standard KeySym name obtained 
+from <X11/keysymdef.h> by removing the XK_ prefix from each name or 
+.I AnyKey.
+
+.PP
+.TP
+.B KeyRelease
+Occurs when a key is released.
+Event detail for this event should be standard KeySym name obtained 
+from <X11/keysymdef.h> by removing the XK_ prefix from each name or 
+.I AnyKey.
+
+
+.PP
+.TP
+.B EnterNotify
+Occurs when mouse enters a window.
+No event details for this event type.
+
+.PP
+.TP
+.B LeaveNotify
+Occurs when mouse leaves a window.
+No event details for this event type.
+
+.PP
+.TP
+.B MapRequest
+Occurs when a window requests to be mapped.
+No event details for this event type.
+
+
+.PP
+Here is the list of event modifiers that can used in the modifier mask:
+
+.PP
+.B ShiftMask
+.br
+.B LockMask
+.br
+.B ControlMask
+.br
+.B Mod[1-5]Mask
+.br
+.B Button[1-5]Mask
+.br
+.B MoveResizeMask
+.br
+.B Any KeySym that is assigned to a modifier
+
+.PP
+Default action file is /usr/share/meawm/actions/action.
+You can study or edit this action file to grasp how the action system works.
+
+
+.SH MENUS
+
+All menus used in the action file must be defined in the menu file.
+.PP
+A menu definition starts with a [start] tag and ends
+with an [end] tag. Between the [start] and the [end] tag a number of 
+[item], [title], [sub] and [checkbox] tags should be placed.
+The looks and action lists are the only things separating the first three 
+menu item types. All three of these tags could be
+followed by a (string), "string", {string} and <string>.
+A [checkbox] tag is basically an [item] tag with two states.
+
+.PP
+.I Meawm
+menu system is compatible with
+.I blackbox(1)
+menu system so higher level tags as [begin], [exec], [submenu], 
+[nop], [restart] and [exit] are supported. 
+.I blackbox(1) 
+also support [styledir], [reconfig] and [config] tags, these tags are 
+not supported by
+.I Meawm.
+
+.PP
+() = menu item title
+.br
+"" = action
+.br
+{} = command line
+.br
+<> = sub menu
+.PP
+
+e.g.:
+.nf
+
+[start]   (menu)
+  [title] (Menu)
+  [item]  (Xterm)    {xterm}
+  [sub]   (Programs) <progs>
+  [item]  (Restart)  "restart"
+  [item]  (Exit)     "exit"
+[end]
+
+.fi
+It is possible to start defining a new menu within another menu.
+e.g.:
+.nf
+
+[start]    (menu)
+  [start]  (menu2)
+    [item] (not smart)    {rm -rf ~/.}
+    [end]  
+  [sub]    <menu2>
+[end]
+
+.fi
+
+.PP
+[include] tags can be used anywhere in a menu file to include
+the contains of another file. e.g.:
+.nf
+
+[include] (/home/user/.meawm/rootmenu)
+
+.fi
+
+
+.B Environment Variables And Window Info Expansion
+.br
+Menu item titles include filenames and submenu references can 
+contain environment variables. e.g.:
+.nf
+[item] (Logout $USER) "exit"
+.fi
+$USER will be replaced with USER environment variable. 
+.PP
+Menu mapped by event occurring on a window.* window can contain
+special window info character sequences. These character sequences
+are expanded with the current window info when menu is mapped. e.g.:
+.nf
+
+[item] (win name: \\n)
+
+.fi
+Will be expanded to:
+.nf
+
+[item] (win name: windowname)
+
+.fi
+Where windowname is the actual class name of the window.
+.br
+These are the character sequences that
+.I meawm 
+recognizes:
+.nf
+
+"\\c" Window class
+"\\n" Window class name
+"\\h" Host name for window owner
+"\\p" PID of window owner
+
+.fi
+If some window info isn't known for a window, the character sequence
+used for expanding this info will be replaced with an empty string.
+.PP
+All special characters need to be escaped (with a `\\') to protect 
+them from expansion. Special characters are:
+.nf
+( ) { } < > [ ] " $ 
+
+.fi
+
+.PP
+.B Checkboxes
+.br
+A checkbox item is a item that have two states and a flag decides which
+state the item is in. e.g.:
+.nf
+
+[checkbox=STICKY] @FALSE (Sticky) "sticky" @TRUE (Sticky) "unsticky"
+
+.fi
+Flag to decide which mode to be in for this checkbox is STICKY (the
+sticky flag for a window). If STICKY flag is 'False' the checkbox item
+will be in mode defined by menu string after @FALSE and if STICKY flag
+is 'True' the checkbox item will be in mode defined by the menu string
+after @TRUE.
+
+.PP
+Here is the list of flags that can be used with checkbox items:
+.br
+MAXIMIZED
+.br
+MINIMIZED
+.br
+SHADED
+.br
+STICKY
+.br
+ALWAYSONTOP
+.br
+ALWAYSATBOTTOM
+.br
+DECORTITLE
+.br
+DECORHANDLE
+.br
+DECORBORDER
+.br
+FULLSCREEN
+.br
+.PP
+
+.PP
+.B Taskswitcher
+.br
+Predefined menu named "__windowlist__" can be used in menu file
+and action file to access the taskswitcher menu.
+
+.PP
+.B Window merging
+.br
+Predefined menus named "__mergelist__", "__mergelist_vertically__" and
+"__mergelist_horizontally__" can be used in menu file
+and action file to access window merging menus.
+
+
+.PP
+.B Dynamic menus
+.br
+Meawm supports dynamic menus. A Dynamic menu is a menu that is 
+generated when mapped. Compared to a normal static menu that must be fully
+defined in the 
+.I MENUFILE
+the definition of a dynamic menu only consists of a command line. 
+The command line is executed when the menu is to be mapped and the 
+standard output from the command is parsed in the same way as the
+.I MENUFILE
+to generate the dynamic menu. Every time the menu is remapped the command
+line is executed and a new menu is generated. A dynamic menu is defined 
+as a submenu link in the
+.I MENUFILE
+or as a menu_name parameter to one of the 
+.I menumap 
+actions. A dynamic menu definition must start with a '!' character and be
+followed by a command line. e.g.:
+.nf
+
+[sub] (Styles) <!styledir.pl>
+
+.fi
+Creates a submenu item with title 'Styles' and the submenu for the item 
+is dynamic menu created by execution of styledir.pl script. Dynamic 
+menus can contain definitions of other dynamic menus.
+
+.PP
+Default menu file is /usr/share/meawm/menu.
+You can study or edit this menu file to grasp how the menu system works.
+
+
+.SH ENVIRONMENT
+.TP
+.B  HOME
+.I Meawm 
+uses this variable to find its
+.I .meawmrc
+file.
+.TP
+.B DISPLAY
+When no other display was given on the command line, 
+.I meawm 
+will start on the display specified by this variable.
+
+
+.SH FILES
+.TP
+.B ~/.meawmrc
+User configuration file. See
+.I "CONFIG FILE"
+section for more details.
+
+.TP
+.B /usr/share/meawm/rcfile
+The system wide configuration file. See
+.I "CONFIG FILE"
+section for more details.
+
+.TP
+.B /usr/share/meawm/style/Default.style
+The system wide style file. See
+.I STYLES
+section for more details.
+
+.TP
+.B /usr/share/meawm/actions/action
+The system wide action file. See
+.I ACTIONS
+section for more details.
+
+.TP
+.B /usr/share/meawm/menu
+The system wide menu file. See
+.I MENUS
+section for more details.
+
+.TP
+.B /usr/share/meawm/menu.hardened
+The hardened system wide menu file.
+
+
+.SH BUGS
+Bug reports, patches and suggestions are much appreciated.
+https://dev-breeze-com.github.io/meawm/issues
+
+.SH AUTHOR
+Pierre Innocent <dev@breezeos.com>
+
+.SH ORIGINAL AUTHOR
+David Reveman <david@meawm.org>
+
+The Meawm website:
+.nh
+.B https://dev-breeze-com.github.io/meawm/
+.ny
+.SH "SEE ALSO"
+.BR blackbox (1), 
+.BR waimea (1), 
+.BR X (7)

@@ -1,0 +1,44 @@
+2016-01-28  Pierre Inncoent  <dev@breezeos.com>
+
+	* Renamed files from waimea to meawm.
+	* Added compositing and application launcher.
+
+2005-01-28  David Reveman  <davidr@novell.com>
+
+	* src/Net.cc (getWmIconImage): Cast to unsigned long.
+	(setDockappPrio): Pass pointer to prio variable.
+
+2005-01-25  David Reveman  <davidr@novell.com>
+
+	Track changes to cairo. Add ARGB visual support. Fix a few memory
+	errors.
+
+	* configure.in: Require cairo >= 0.3.0.
+	Require libsvg-cairo >= 0.1.4.
+
+2004-11-04  David Reveman  <c99drn@cs.umu.se>
+
+	* configure.in: Require cairo >= 0.1.23.
+
+	* src/Waimea.cc: 
+	* src/Style.hh: 
+	* src/Render.hh: 
+	* src/Event.cc: Removed ugly xcb.h include hack.
+
+	* src/Render.cc: Tracking changes to cairo.
+
+2004-05-21  David Reveman  <c99drn@cs.umu.se>
+
+	* src/Event.cc: Raise window when going to fullscreen mode.
+
+2004-05-18  David Reveman  <c99drn@cs.umu.se>
+
+	* src/Action.cc: Make sure old_style exists before we unref it.
+
+	* src/Event.cc: Only destroy window if no pending_unmaps.
+
+	* src/Window.cc: Unmap client window.
+	Map client window.
+
+	* src/Window.hh: Added pending_unmaps.
+

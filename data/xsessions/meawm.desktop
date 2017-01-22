@@ -1,0 +1,6 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=XSession
+Exec=startmeawm
+Name=meawm
+Comment=An X11 window manager designed for maximum efficiency

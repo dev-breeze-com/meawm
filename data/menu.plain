@@ -1,0 +1,136 @@
+!
+! Root Menu
+!
+[start] (rootmenu)
+  [title] (Meawm Menu)
+
+  [submenu] (Terminal)
+	  [item]  (Brzterm)   {brzterm}
+	  [item]  (Xfce-term) {xfce4-terminal}
+	  [item]  (Terminal)  {Terminal}
+	  [item]  (xterm)     {xterm}
+  [end]
+
+  [submenu] (Internet)
+      [item] (Firefox)   {firefox}
+      [item] (Mozilla)   {seamonkey}
+      [item] (Filezilla) {filezilla}
+      [item] (Gftp)      {gftp}
+      [item] (NCftp)     {xterm -e ncftp}
+  [end]
+
+  [submenu] (Multimedia)
+    [item] (Brzvid)  {brzvid}
+    [item] (Audacious) {audacious}    
+    [item] (Mplayer) {gmplayer}    
+    [item] (Parole) {parole}    
+    [item] (Xmms)    {xmms}
+  [end]
+
+  [submenu] (Graphics)
+    [item] (Brzview)  {brzview}
+    [item] (Inkscape) {inkscape}
+    [item] (Gimp)     {gimp}
+    [item] (Xpaint)   {xpaint}
+    [item] (Xmag)     {xmag}
+    [item] (Xv)       {xv}
+  [end]
+
+  [submenu] (Office)
+	[item] (OpenOffice)   {openoffice}
+	[item] (LibreOffice)  {libreoffice}
+	[item] (Calligra)     {calligra}
+  [end]
+
+  [submenu] (Editors)
+    [item] (emacs) {emacs}
+    [item] (vi)    {xterm -e vi}
+  [end]
+
+  [submenu] (Admin)
+    [item] (Package Manager) {/usr/bin/sudo -A brzpkg-gtk}
+    [item] (Distro Installer) {/usr/bin/sudo -A TESTMODE=yes brzinst --appmode}
+  [end]
+
+  [submenu] (Desktops)
+    [item] (Desktop) "gotoDesktop(0)"
+	[item] (Development) "gotoDesktop(1)"
+	[item] (Documentation) "gotoDesktop(2)"
+  [end]
+
+  [sub] (Styles)     <!stylesdir.pl>
+  [sub] (Processes)  <!procinfo.pl>
+
+  [submenu] (Compositing)
+    [item] (On) "Compositor(1)"
+    [item] (Off) "Compositor(0)"
+  [end]
+
+  [submenu] (Desktop)
+    [item] (Show) "Showing(1)"
+    [item] (Hide) "Showing(0)"
+    [item] (Slides) "Carrousel(1)"
+  [end]
+
+!  [item]    (Launcher) {brzlaunch}
+  [restart] (Restart)
+  [exit]    (Exit)
+[end]
+
+!
+! Window Menu
+!
+[start] (window)
+  [title]   (\n)
+  [submenu] (settings)
+    [checkbox=MAXIMIZED]      @FALSE (maximized)        "maximize"         @TRUE (maximized)        "unMaximize"
+    [checkbox=MINIMIZED]      @FALSE (minimized)        "minimize"         @TRUE (minimized)        "unMinimize"
+    [checkbox=FULLSCREEN]     @FALSE (fullscreen)       "fullscreenOn"     @TRUE (fullscreen)       "fullscreenOff"
+    [checkbox=SHADED]         @FALSE (shaded)           "shade"            @TRUE (shaded)           "unShade"
+    [checkbox=STICKY]         @FALSE (sticky)           "sticky"           @TRUE (sticky)           "unSticky"
+    [checkbox=ALWAYSONTOP]    @FALSE (always on top)    "alwaysOnTopOn"    @TRUE (always on top)    "alwaysOnTopOff"
+    [checkbox=ALWAYSATBOTTOM] @FALSE (always at bottom) "alwaysAtBottomOn" @TRUE (always at bottom) "alwaysAtBottomOff"
+    [checkbox=DECORTITLE]     @FALSE (titlebar)         "decorTitleOn"     @TRUE (titlebar)         "decorTitleOff"
+    [checkbox=DECORHANDLE]    @FALSE (handlebar)        "decorHandleOn"    @TRUE (handlebar)        "decorHandleOff"
+    [checkbox=DECORBORDER]    @FALSE (border)           "decorBorderOn"    @TRUE (border)           "decorBorderOff"
+    [checkbox=DECORALL]       @FALSE (all decorations)  "decorAllOn"       @TRUE (all decorations)  "decorAllOff"
+  [end]
+  [sub]     (process info) <!procinfo.pl -host \"\h\" -pid \"\p\">
+  [submenu] (desktop functions)
+    [sub] (join desktop) <join_desk>
+    [start] (join_desk)
+      [item] (desktop 1) "joinDesktop(0)"
+      [item] (desktop 2) "joinDesktop(1)"
+      [item] (desktop 3) "joinDesktop(2)"
+      [item] (desktop 4) "joinDesktop(3)"
+    [end]
+    [sub] (part desktop) <part_desk>
+    [start] (part_desk)
+      [item] (desktop 1) "partDesktop(0)"
+      [item] (desktop 2) "partDesktop(1)"
+      [item] (desktop 3) "partDesktop(2)"
+      [item] (desktop 4) "partDesktop(3)"
+    [end]
+    [sub] (send to desktop) <send_desk>
+    [start] (send_desk)
+      [item] (desktop 1) "partCurrentJoinDesktop(0)"
+      [item] (desktop 2) "partCurrentJoinDesktop(1)"
+      [item] (desktop 3) "partCurrentJoinDesktop(2)"
+      [item] (desktop 4) "partCurrentJoinDesktop(3)"
+    [end]
+    [item] (join all)     "joinAllDesktops"
+    [item] (part all)     "partAllDesktopsExceptCurrent"
+    [item] (part current) "partCurrentDesktop"
+  [end]
+!  [submenu] (merge functions)  
+!    [sub]     (merge with)              <__mergelist__>
+!    [sub]     (merge vertically with)   <__mergelist_vertically__>
+!    [sub]     (merge horizontally with) <__mergelist_horizontally__>    
+!    [item]    (explode)                 "explode"
+!    [item]    (unmerge)                 "unmerge"
+!  [end] 
+  [item]    (raise)       "raise"
+  [item]    (lower)       "lower"
+  [item]    (kill client) "kill"
+  [item]    (close)       "close"
+[end]
