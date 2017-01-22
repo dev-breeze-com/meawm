@@ -161,13 +161,13 @@ CONFIGURATION
 
 BUGS
 ====
-   Bug reports, patches and suggestions are much appreciated, 
+   Bug reports, patches and suggestions are much appreciated,  
    See the GitHub account https://www.github.com/dev-breeze-com/meawm
 
 
 AUTHOR
 ======
-   Pierre Innocent ( dev@breezeos.com ) 
+   Pierre Innocent ( dev@breezeos.com )  
    The Breeze::OS website: http://www.breezeos.com  
 
 
@@ -178,18 +178,9 @@ ORIGINAL AUTHOR
 
 SUPPORT
 =======
-   Support this project by providing a better icon, than the one
-   that is contained in the file data/meawm-48x48.jpg
+   Support this project by providing a better icon, than  
+   the one that is contained in data/meawm-48x48.jpg
 
-   Also can also donate to support this project at 
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-<input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="hosted_button_id" value="TZU8BE63SVVL4">
-<input type="image"
-src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0"
-name="submit" alt="PayPal - The safer, easier way to pay online!">
-<img alt="" border="0"
-src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1"
-height="1">
-</form>
+   Also can also donate to support this project at  
+   http://www.breezeos.com
 
